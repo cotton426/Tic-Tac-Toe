@@ -12,14 +12,14 @@
     "format": "npx prettier --write \"**/*.{js,jsx,json,ts,tsx}\"",
     "lint": "eslint\"src/**/*.{js,jsx,json,ts,tsx}\""
   },
-  "hustky": {
+  "husky": {
     "hooks": {
       "pre-commit": "npm run typecheck && lint-staged"
     }
   },
-  "lint-staged":{
-    "src/**/*.{js,jsx,json,ts,tsx}":"eslint",
-    "**/*.{js,jsx,json,ts,tsx}":"prettier --write"
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,ts,tsx}": "eslint",
+    "**/*.{js,jsx,json,ts,tsx}": "prettier --write"
   },
   "dependencies": {
     "expo": "~48.0.15",
