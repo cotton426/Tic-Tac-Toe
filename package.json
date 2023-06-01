@@ -23,12 +23,16 @@
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-thai-looped": "^0.2.3",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "expo": "~48.0.15",
     "expo-app-loading": "^2.1.1",
     "expo-font": "~11.1.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
-    "react-native": "0.71.8"
+    "react-native": "0.71.8",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -40,6 +44,7 @@
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
+    "expo-module-scripts": "^3.0.7",
     "husky": "^4.3.8",
     "lint-staged": "^13.2.2",
     "prettier": "2.8.8",
