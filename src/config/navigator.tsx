@@ -1,11 +1,16 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home, Game } from "@screens";
 
-const Stack = createNativeStackNavigator();
+export type StackNavigatorParams = {
+  Home: undefined;
+  Game: { gameId: string };
+};
 
-export default function Navigator() {
+const Stack = createNativeStackNavigator<StackNavigatorParams>();
+
+export default function Navigator(): ReactElement {
   return (
     <NavigationContainer>
       <Stack.Navigator>

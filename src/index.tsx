@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text, AppBootstrap } from "@components";
+import { AppBootstrap } from "@components";
 import Navigator from "./config/navigator";
 
 export default function App(): ReactElement {
@@ -10,12 +9,3 @@ export default function App(): ReactElement {
     </AppBootstrap>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F2E3DB",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
