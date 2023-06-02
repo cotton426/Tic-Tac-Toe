@@ -1,5 +1,4 @@
-import { ReactElement } from "react";
-import { BoardState } from "./type";
+import { BoardState, Moves } from "./type";
 
 export const printFormattedBoard = (state: BoardState): void => {
   let formattedString = "";
@@ -14,4 +13,22 @@ export const printFormattedBoard = (state: BoardState): void => {
     }
   });
   console.log("\n" + formattedString);
+};
+
+export const isEmty = (state: BoardState): boolean => {
+  return state.every((cell) => cell === null);
+};
+
+export const isFull = (state: BoardState): boolean => {
+  return state.every((cell) => cell);
+};
+
+export const getAvailableMoves = (state: BoardState): Moves[] => {
+  const moves: Moves[] = [];
+  state.forEach((cell, index) => {
+    if (cell === null) {
+      moves.push(index as Moves);
+    }
+  });
+  return moves;
 };
