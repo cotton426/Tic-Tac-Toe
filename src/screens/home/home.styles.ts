@@ -3,10 +3,10 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    paddingTop: 120,
+    paddingTop: 140,
   },
   logo: {
-    height: 220,
+    height: 160,
     maxWidth: "60%",
     resizeMode: "contain",
     transform: [{ rotate: "-10deg" }],
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
   },
   buttons: {
-    marginTop: 60,
+    marginTop: 80,
   },
   button: {
     marginBottom: 20,
