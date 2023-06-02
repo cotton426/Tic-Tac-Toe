@@ -23,6 +23,6 @@ module.exports = {
   },
   rules: {
     "react/react-in-jsx-scope": "off", // Turn off requirement of 'React' being in scope for JSX
-    "no-console": "warn",
+    // "no-console": "warn",
   },
 };

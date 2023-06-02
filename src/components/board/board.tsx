@@ -1,11 +1,10 @@
 import React, { ReactElement } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { Text } from "@components";
-
-type Cell = "x" | "o" | null;
+import { BoardState } from "@utils";
 
 type BoardProps = {
-  state: [Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell, Cell];
+  state: BoardState;
   size: number;
   onCellPressed?: (index: number) => void;
 };
@@ -23,6 +22,7 @@ export default function Board({
         backgroundColor: "#f7f7f7",
         flexDirection: "row",
         flexWrap: "wrap",
+        borderWidth: 3,
       }}
     >
       {state.map((cell, index) => {
