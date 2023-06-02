@@ -6,17 +6,20 @@ import { Board } from "@components";
 import {
   printFormattedBoard,
   BoardState,
-  isEmty,
+  isEmpty,
   isFull,
   getAvailableMoves,
+  isTerminal,
 } from "@utils";
 
 export default function Game(): ReactElement {
-  const b: BoardState = ["x", "o", "x", "x", "o", "x", "x", null, null];
+  const b: BoardState = ["x", null, "x", "o", "o", null, "x", "o", "x"];
   printFormattedBoard(b);
-  console.log(isEmty(b));
-  console.log(isFull(b));
-  console.log(getAvailableMoves(b));
+  console.log(isTerminal(b));
+
+  // console.log(isEmpty(b));
+  // console.log(isFull(b));
+  // console.log(getAvailableMoves(b));
   return (
     <GradientBackground>
       <SafeAreaView style={styles.container}>
