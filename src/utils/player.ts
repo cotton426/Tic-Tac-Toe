@@ -1,23 +1,25 @@
 import { BoardState } from "./type";
-import { isTerminal, getAvailableMoves, printFormattedBoard } from "./board";
+import { isTerminal, getAvailableMoves } from "./board";
 
 export const getBestMove = (
   state: BoardState,
   maximizing: boolean,
-  depth = 0
+  depth = 0,
+  maxDepth = -1
 ): number => {
   const chileValues: { [key: string]: string } = {};
 
   const getBestMoveRecursive = (
     state: BoardState,
     maximizing: boolean,
-    depth = 0
+    depth = 0,
+    maxDepth = -1
   ): number => {
     const terminalObject = isTerminal(state);
-    if (terminalObject) {
-      if (terminalObject.winner === "x") {
+    if (terminalObject || depth === maxDepth) {
+      if (terminalObject && terminalObject.winner === "x") {
         return 100 - depth;
-      } else if (terminalObject.winner === "o") {
+      } else if (terminalObject && terminalObject.winner === "o") {
         return -100 + depth;
       }
       return 0;
@@ -27,13 +29,15 @@ export const getBestMove = (
       getAvailableMoves(state).forEach((index) => {
         const chile: BoardState = [...state];
         chile[index] = "x";
-        console.log(`Chile board (x turn) (depth: ${depth}`);
-        console.log(chile);
+        // console.log(`Chile board (x turn) (depth: ${depth}`);
 
-        printFormattedBoard(chile);
-
-        const chileValue = getBestMoveRecursive(chile, false, depth + 1);
-        console.log("chileValue x", chileValue);
+        const chileValue = getBestMoveRecursive(
+          chile,
+          false,
+          depth + 1,
+          maxDepth
+        );
+        // console.log("chileValue x", chileValue);
 
         best = Math.max(best, chileValue);
         if (depth === 0) {
@@ -42,28 +46,28 @@ export const getBestMove = (
             : `${index}`;
         }
       });
-      console.log("best x", best);
-      console.log("chileValues xs", chileValues);
+      // console.log("best x", best);
+      // console.log("chileValues xs", chileValues);
       if (depth === 0) {
         const arr = chileValues[best].split(",");
         const rand = Math.floor(Math.random() * arr.length);
         return parseInt(arr[rand]);
       }
       return best;
-    }
-
-    if (!maximizing) {
+    } else {
       let best = 100;
       getAvailableMoves(state).forEach((index) => {
         const chile: BoardState = [...state];
         chile[index] = "o";
-        console.log(`Chile board (o turn) (deapth: ${depth}`);
-        console.log(chile);
+        // console.log(`Chile board (o turn) (deapth: ${depth}`);
 
-        printFormattedBoard(chile);
-
-        const chileValue = getBestMoveRecursive(chile, true, depth + 1);
-        console.log("chileValue o", chileValue);
+        const chileValue = getBestMoveRecursive(
+          chile,
+          true,
+          depth + 1,
+          maxDepth
+        );
+        // console.log("chileValue o", chileValue);
 
         best = Math.min(best, chileValue);
         if (depth === 0) {
@@ -72,8 +76,8 @@ export const getBestMove = (
             : `${index}`;
         }
       });
-      console.log("best o", best);
-      console.log("chileValues os", chileValues);
+      // console.log("best o", best);
+      // console.log("chileValues os", chileValues);
       if (depth === 0) {
         const arr = chileValues[best].split(",");
         const rand = Math.floor(Math.random() * arr.length);
@@ -81,7 +85,6 @@ export const getBestMove = (
       }
       return best;
     }
-    throw new Error("Unexpected code path reached: getBestMoveRecursive");
   };
-  return getBestMoveRecursive(state, maximizing, depth);
+  return getBestMoveRecursive(state, maximizing, depth, maxDepth);
 };
