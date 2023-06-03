@@ -25,7 +25,7 @@ export default function Game(): ReactElement {
     "o",
     "x",
   ]);
-  console.log("getBestMove", getBestMove(state, true));
+  console.log("getBestMove is", getBestMove(state, true));
 
   const handleOncellPressed = (cell: number): void => {
     const stateCopy: BoardState = [...state];

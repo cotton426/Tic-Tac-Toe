@@ -14,7 +14,7 @@ export default function Navigator(): ReactElement {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SinglePlayerGame"
+        initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={Home} />
