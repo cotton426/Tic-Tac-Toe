@@ -10,27 +10,23 @@ import {
   isFull,
   getAvailableMoves,
   isTerminal,
+  getBestMove,
 } from "@utils";
 
 export default function Game(): ReactElement {
   const [state, setstate] = useState<BoardState>([
     null,
+    "x",
     null,
+    "o",
     null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
+    "x",
+    "o",
+    "o",
+    "x",
   ]);
-  // const b: BoardState = ["x", null, "x", "o", "o", null, "x", "o", "x"];
-  // printFormattedBoard(b);
-  // console.log(isTerminal(b));
+  console.log("getBestMove", getBestMove(state, true));
 
-  // console.log(isEmpty(b));
-  // console.log(isFull(b));
-  // console.log(getAvailableMoves(b));
   const handleOncellPressed = (cell: number): void => {
     const stateCopy: BoardState = [...state];
     if (stateCopy[cell] || isTerminal(stateCopy)) return;
