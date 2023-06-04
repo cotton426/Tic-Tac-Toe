@@ -1,11 +1,16 @@
-import React, { ReactElement, useEffect, useState, useRef } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import styles from "./single-player-game.styles";
 import { GradientBackground } from "@components";
 import { Board } from "@components";
-import { BoardState, isEmpty, isTerminal, getBestMove, Cell } from "@utils";
-import { Audio } from "expo-av";
-import * as Haptics from "expo-haptics";
+import {
+  BoardState,
+  isEmpty,
+  isTerminal,
+  getBestMove,
+  Cell,
+  useSounds,
+} from "@utils";
 
 export default function Game(): ReactElement {
   // prettier-ignore
@@ -19,11 +24,8 @@ export default function Game(): ReactElement {
   );
   const [isHumanMaximizing, setIsHumanMaximizing] = useState<boolean>(true);
 
-  const popSoundRef = useRef<Audio.Sound | null>(null);
-  const pop2SoundRef = useRef<Audio.Sound | null>(null);
-  const winSoundRef = useRef<Audio.Sound | null>(null);
-  const lossSoundRef = useRef<Audio.Sound | null>(null);
-  const endSoundRef = useRef<Audio.Sound | null>(null);
+  useSounds();
+  const playSound = useSounds();
 
   const gameResult = isTerminal(state);
 
@@ -33,10 +35,7 @@ export default function Game(): ReactElement {
     stateCopy[cell] = symbol;
     setstate(stateCopy);
     try {
-      symbol === "x"
-        ? popSoundRef.current?.replayAsync()
-        : pop2SoundRef.current?.replayAsync();
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      symbol === "x" ? playSound("pop") : playSound("pop2");
     } catch (error) {
       console.error();
     }
@@ -63,32 +62,18 @@ export default function Game(): ReactElement {
       const winner = getWinner(gameResult.winner);
 
       if (winner === "HUMAN") {
-        try {
-          winSoundRef.current?.replayAsync();
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-        } catch (error) {
-          console.log(error);
-        }
+        playSound("win");
+
         alert("You Win!");
       }
 
       if (winner === "BOT") {
-        try {
-          lossSoundRef.current?.replayAsync();
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        } catch (error) {
-          console.log(error);
-        }
+        playSound("loss");
         alert("You Loss");
       }
 
       if (winner === "END") {
-        try {
-          endSoundRef.current?.replayAsync();
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
-        } catch (error) {
-          console.log(error);
-        }
+        playSound("end");
         alert("Nothing");
       }
     } else {
@@ -110,47 +95,6 @@ export default function Game(): ReactElement {
       }
     }
   }, [state, turn]);
-
-  useEffect(() => {
-    // Load sound
-    /* eslint-disable @typescript-eslint/no-var-requires */
-    const popSoundObject = new Audio.Sound();
-    const pop2SoundObject = new Audio.Sound();
-    const winSoundObject = new Audio.Sound();
-    const lossSoundObject = new Audio.Sound();
-    const endSoundObject = new Audio.Sound();
-
-    const loadSounds = async () => {
-      try {
-        await popSoundObject.loadAsync(require("@assets/pop.wav"));
-        popSoundRef.current = popSoundObject;
-
-        await pop2SoundObject.loadAsync(require("@assets/pop.mp3"));
-        pop2SoundRef.current = pop2SoundObject;
-
-        await winSoundObject.loadAsync(require("@assets/win.wav"));
-        winSoundRef.current = winSoundObject;
-
-        await lossSoundObject.loadAsync(require("@assets/loss.mp3"));
-        lossSoundRef.current = lossSoundObject;
-
-        await endSoundObject.loadAsync(require("@assets/end.mp3"));
-        endSoundRef.current = endSoundObject;
-      } catch (error) {
-        console.error("Error loading sound:", error); // Log error message
-      }
-    };
-    loadSounds();
-
-    return () => {
-      // Unload sound
-      popSoundObject?.unloadAsync();
-      pop2SoundObject?.unloadAsync();
-      winSoundObject?.unloadAsync();
-      lossSoundObject?.unloadAsync();
-      endSoundObject?.unloadAsync();
-    };
-  }, []);
 
   return (
     <GradientBackground>
