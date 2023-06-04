@@ -4,6 +4,7 @@ import { GradientBackground, Text } from "@components";
 import styles from "./settings.style";
 import { colors } from "@utils";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const difficulties = {
   "1": "Beginner",
@@ -26,6 +27,21 @@ const defaultSettings: settingType = {
 
 export default function Setting(): ReactElement | null {
   const [settings, setSettings] = useState<settingType | null>(null); //null if we dont load anything yet
+
+  const saveSetting = async <T extends keyof settingType>(
+    setting: T,
+    value: settingType[T]
+  ) => {
+    try {
+      const oldSettings = settings ? settings : defaultSettings; //if settting is null load defaults
+      const newSettings = { ...oldSettings, [setting]: value };
+      const jsonSettings = JSON.stringify(newSettings);
+      await AsyncStorage.setItem("@settings", jsonSettings); //json work on storage
+      setSettings(newSettings); // after update settings in storage--> need to update our settings
+    } catch (error) {
+      Alert.alert("Error", "Error loading ");
+    }
+  };
 
   const loadSettings = async () => {
     try {
@@ -54,6 +70,12 @@ export default function Setting(): ReactElement | null {
             {Object.keys(difficulties).map((level) => {
               return (
                 <TouchableOpacity
+                  onPress={() => {
+                    saveSetting(
+                      "difficulty",
+                      level as keyof typeof difficulties
+                    );
+                  }}
                   key={level}
                   style={[
                     styles.subChoice,
@@ -66,7 +88,7 @@ export default function Setting(): ReactElement | null {
                   ]}
                 >
                   <Text
-                    weight="400"
+                    weight="700"
                     style={[
                       styles.choiceText,
                       {
@@ -93,9 +115,9 @@ export default function Setting(): ReactElement | null {
             trackColor={{ false: colors.purple, true: colors.blueSky }}
             ios_backgroundColor={colors.lightGreen}
             value={settings.sounds}
-            // onValueChange={() => {
-            //   setState(!state);
-            // }}
+            onValueChange={() => {
+              saveSetting("sounds", !settings.sounds);
+            }}
           />
         </View>
 
@@ -107,9 +129,9 @@ export default function Setting(): ReactElement | null {
             trackColor={{ false: colors.purple, true: colors.blueSky }}
             ios_backgroundColor={colors.lightGreen}
             value={settings.haptics}
-            // onValueChange={() => {
-            //   setState(!state);
-            // }}
+            onValueChange={() => {
+              saveSetting("haptics", !settings.haptics);
+            }}
           />
         </View>
       </ScrollView>
