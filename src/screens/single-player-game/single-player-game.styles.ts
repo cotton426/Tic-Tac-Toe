@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 100,
+    marginTop: 40,
   },
   difficulty: {
     color: colors.lightGreen,
-    fontSize: 22,
+    fontSize: 28,
     textAlign: "center",
   },
   result: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   modal: {
     position: "absolute",
     backgroundColor: colors.purple,
-    bottom: 160,
+    bottom: 140,
     left: 30,
     right: 30,
     padding: 30,

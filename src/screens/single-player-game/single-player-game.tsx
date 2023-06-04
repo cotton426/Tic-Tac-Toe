@@ -111,7 +111,7 @@ export default function Game(): ReactElement {
     <GradientBackground>
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.difficulty}>Difficulty:Hard</Text>
+          <Text style={styles.difficulty}>Difficulty: Hard</Text>
           <View style={styles.result}>
             <View style={styles.resultBox}>
               <Text style={styles.resultTiTle}>Win</Text>
