@@ -61,7 +61,7 @@ export const isTerminal = (state: BoardState): BoardResult | false => {
         result.direction = "H";
         result.row = index === 0 ? 1 : index === 1 ? 2 : 3;
       }
-      if (index > 3 && index < 5) {
+      if (index > 2 && index < 6) {
         result.direction = "V";
         result.column = index === 3 ? 1 : index === 4 ? 2 : 3;
       }
