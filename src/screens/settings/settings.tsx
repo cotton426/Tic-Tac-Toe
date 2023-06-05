@@ -1,63 +1,12 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import { ScrollView, TouchableOpacity, View, Switch } from "react-native";
 import { GradientBackground, Text } from "@components";
 import styles from "./settings.style";
 import { colors } from "@utils";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
-
-const difficulties = {
-  "1": "Beginner",
-  "3": "Intermediate",
-  "4": "Hard",
-  "-1": "Impossible",
-};
-
-type settingType = {
-  difficulty: keyof typeof difficulties;
-  haptics: boolean;
-  sounds: boolean;
-};
-
-const defaultSettings: settingType = {
-  difficulty: "-1",
-  haptics: true,
-  sounds: true,
-};
+import { difficulties, useSettings } from "@contexts/setting-context";
 
 export default function Setting(): ReactElement | null {
-  const [settings, setSettings] = useState<settingType | null>(null); //null if we dont load anything yet
-
-  const saveSetting = async <T extends keyof settingType>(
-    setting: T,
-    value: settingType[T]
-  ) => {
-    try {
-      const oldSettings = settings ? settings : defaultSettings; //if settting is null load defaults
-      const newSettings = { ...oldSettings, [setting]: value };
-      const jsonSettings = JSON.stringify(newSettings);
-      await AsyncStorage.setItem("@settings", jsonSettings); //json work on storage
-      setSettings(newSettings); // after update settings in storage--> need to update our settings
-    } catch (error) {
-      Alert.alert("Error", "Error loading ");
-    }
-  };
-
-  const loadSettings = async () => {
-    try {
-      const settings = await AsyncStorage.getItem("@settings");
-      settings !== null
-        ? setSettings(JSON.parse(settings))
-        : setSettings(defaultSettings);
-    } catch (error) {
-      setSettings(defaultSettings);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
+  const { settings, saveSetting } = useSettings();
   if (!settings) return null;
   return (
     <GradientBackground>

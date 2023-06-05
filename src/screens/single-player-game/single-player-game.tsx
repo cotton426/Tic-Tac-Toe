@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { SafeAreaView, Dimensions, View } from "react-native";
 import styles from "./single-player-game.styles";
 import { GradientBackground, Board, Text, Button } from "@components";
+import { difficulties, useSettings } from "@contexts/setting-context";
 import {
   BoardState,
   isEmpty,
@@ -33,6 +34,7 @@ export default function Game(): ReactElement {
 
   useSounds();
   const playSound = useSounds();
+  const { settings } = useSettings();
 
   const gameResult = isTerminal(state);
 
@@ -99,7 +101,12 @@ export default function Game(): ReactElement {
           setIsHumanMaximizing(false);
           setTurn("HUMAN");
         } else {
-          const best = getBestMove(state, !isHumanMaximizing, 0, -1);
+          const best = getBestMove(
+            state,
+            !isHumanMaximizing,
+            0,
+            parseInt(settings ? settings.difficulty : "-1")
+          );
           insertCell(best, isHumanMaximizing ? "o" : "x");
           setTurn("HUMAN");
         }
@@ -111,7 +118,10 @@ export default function Game(): ReactElement {
     <GradientBackground>
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.difficulty}>Difficulty: Hard</Text>
+          <Text weight="700" style={styles.difficulty}>
+            Difficulty:{" "}
+            {settings ? difficulties[settings.difficulty] : "Impossible"}
+          </Text>
           <View style={styles.result}>
             <View style={styles.resultBox}>
               <Text style={styles.resultTiTle}>Win</Text>
