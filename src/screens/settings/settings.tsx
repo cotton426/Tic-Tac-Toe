@@ -48,7 +48,7 @@ export default function Setting(): ReactElement | null {
                       },
                     ]}
                   >
-                    {difficulties[level as "1" | "3" | "4" | "-1"]}
+                    {difficulties[level as keyof typeof difficulties]}
                   </Text>
                 </TouchableOpacity>
               );

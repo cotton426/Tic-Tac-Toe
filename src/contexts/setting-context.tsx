@@ -11,8 +11,8 @@ import { Alert } from "react-native";
 
 const difficulties = {
   "1": "Beginner",
-  "3": "Intermediate",
-  "4": "Hard",
+  "2": "Intermediate",
+  "3": "Hard",
   "-1": "Impossible",
 };
 
